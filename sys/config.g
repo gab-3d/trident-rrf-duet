@@ -32,7 +32,7 @@ M350 X16 Y16 Z16 E16 I1                                    ; configure microstep
 M92 X80.00 Y80.00 Z800.00 E765.92                         ; set steps per mm
 M566 X700.00 Y700.00 Z60.00 E120.00                        ; set maximum instantaneous speed changes (mm/min)
 M203 X6000.00 Y6000.00 Z3000.00 E1200.00                    ; set maximum speeds (mm/min)
-M201 X2000.00 Y2000.00 Z220.00 E250.00                        ; set accelerations (mm/s^2)
+M201 X9000.00 Y9000.00 Z320.00 E250.00                        ; set accelerations (mm/s^2)
 M906 X800 Y800 Z1200 E800 I60                              ; set motor currents (mA) and motor idle factor in per cent
 M84 S60                                                    ; Set idle timeout
 
