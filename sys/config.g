@@ -29,12 +29,14 @@ M569 P121.0 S0                                             ; physical drive 121.
 M584 X0.3 Y0.4 Z0.1:0.2:0.0 E121.0    
 
 M350 X16 Y16 Z16 E16 I1                                    ; configure microstepping with interpolation
-M92 X80.00 Y80.00 Z800.00 E765.92                         ; set steps per mm
-M566 X700.00 Y700.00 Z60.00 E120.00                        ; set maximum instantaneous speed changes (mm/min)
-M203 X6000.00 Y6000.00 Z3000.00 E1200.00                    ; set maximum speeds (mm/min)
-M201 X9000.00 Y9000.00 Z320.00 E250.00                        ; set accelerations (mm/s^2)
-M906 X800 Y800 Z1200 E800 I60                              ; set motor currents (mA) and motor idle factor in per cent
+M92 X80.00 Y80.00 Z800.00 E765.92                          ; set steps per mm
+M566 X1200.00 Y1200.00 Z600.00 E600.00                     ; set maximum instantaneous speed changes (mm/min)
+M203 X6000.00 Y6000.00 Z3000.00 E1200.00                   ; set maximum speeds (mm/min)
+M201 X9000.00 Y9000.00 Z320.00 E250.00                     ; set accelerations (mm/s^2)
+M906 X900 Y900 Z1200 E800 I60                              ; set motor currents (mA) and motor idle factor in per cent
 M84 S60                                                    ; Set idle timeout
+M572 D0 S0.045											   ; Set pressure advance
+
 
 ; Axis Limits
 M208 X0 Y0 Z0 S1                                           ; set axis minima
@@ -83,4 +85,3 @@ M671 X-35.0:285:125 Y-25:-25.0:290.0 S15					;set probe points
 
 ; Miscellaneous
 M501                                                       ; load saved parameters from non-volatile memory
-T1 P0
