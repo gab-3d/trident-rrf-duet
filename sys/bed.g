@@ -9,13 +9,13 @@ if !move.axes[0].homed || !move.axes[1].homed || !move.axes[2].homed	; axis home
 
 
 
-M558 P8 C"^121.io2.in" H20 F220 T90000
+M558 P8 C"^121.io0.in" H20 F220 T90000
 M98 P"/sys/probe.g"
 M98 P"/sys/bed_probe_points.g"
 
 M400 														; finish move, clear buffer  
 
-M558 P8 C"^121.io2.in" H3 F120 T90000
+M558 P8 C"^121.io0.in" H3 F120 T90000
 M98 P"/sys/probe.g"
 while move.calibration.initial.deviation >= 0.003 ; Perform additional leveling if previous deviation was over 0.01mm.
 	M98 P"/sys/bed_probe_points.g"

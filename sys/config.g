@@ -8,7 +8,7 @@ G90                                                        ; send absolute coord
 M83                                                        ; ...but relative extruder moves
 M550 P"Trident"                                            ; set printer name
 M669 K1                                                    ; select CoreXY mode
-
+M552 S0
 ; Wait a moment for the CAN expansion boards to start
 G4 S2
 
@@ -50,7 +50,7 @@ M574 Y2 S1 P"io5.in"                                       ; configure switch-ty
 M574 Z1 S2                                                 ; configure Z-probe endstop for low end on Z
 
 ; Z-Probe
-M558 P8 C"^121.io2.in" H15 F120 T60000                      ; set Z probe type to switch and the dive height + speeds
+M558 P8 C"^121.io0.in" H15 F120 T60000                      ; set Z probe type to switch and the dive height + speeds
 M98 P"/sys/probe.g"
 ;G31 P500 X0 Y0 Z3.060                                       ; set Z probe trigger value, offset and trigger height
 M557 X15:215 Y15:195 P4:4                                   ; define mesh grid
@@ -61,7 +61,7 @@ M950 H0 C"out0" T0                                         ; create bed heater o
 M307 H0 B1 S1.00                                           ; enable bang-bang mode for the bed heater and set PWM limit
 M140 H0                                                    ; map heated bed to heater 0
 M143 H0 S120                                               ; set temperature limit for heater 0 to 120C
-M308 S1 P"121.temp0" Y"thermistor" T100000 B4725 C7.06e-8  ; configure sensor 1 as thermistor on pin 121.temp0
+M308 S1 A"Maxiwatt" P"121.temp0" Y"thermistor" T100000 B3950 C0    ; configure sensor 1 as thermistor on pin 121.temp0
 M950 H1 C"121.out0" T1                                     ; create nozzle heater output on 121.out0 and map it to sensor 1
 M307 H1 B0 S1.00                                           ; disable bang-bang mode for heater  and set PWM limit
 M143 H1 S280                                               ; set temperature limit for heater 1 to 280C
@@ -90,3 +90,4 @@ M671 X-35.0:285:125 Y-25:-25.0:290.0 S15					;set probe points
 
 ; Miscellaneous
 M501                                                       ; load saved parameters from non-volatile memory
+M552 S1
