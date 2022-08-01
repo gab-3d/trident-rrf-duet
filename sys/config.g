@@ -13,6 +13,7 @@ M552 S0
 G4 S2
 
 
+
 ; Network
 M552 S1                                                    ; enable network
 M586 P0 S1                                                 ; enable HTTP
@@ -28,14 +29,20 @@ M569 P0.1 S0                                               ; physical drive 0.0 
 M569 P0.2 S0                                               ; physical drive 0.0 goes forwards
 M569 P121.0 S0                                             ; physical drive 121.0 goes forwards
 
-M584 X0.3 Y0.4 Z0.1:0.2:0.0 E121.0    
+
+M584 X0.3 Y0.4 Z0.1:0.2:0.0 E121.0    					   ; Motor mapping
+
 
 M350 X16 Y16 Z16 E16 I1                                    ; configure microstepping with interpolation
-M92 X80.00 Y80.00 Z800.00 E700                             ; set steps per mm
-M566 X1200.00 Y1200.00 Z200.00 E600.00                     ; set maximum instantaneous speed changes (mm/min)
-M203 X24000.00 Y24000.00 Z3000.00 E1200.00                 ; set maximum speeds (mm/min)
-M201 X24000.00 Y24000.00 Z220.00 E250.00                   ; set accelerations (mm/s^2)
-M906 X1200 Y1200 Z1200 E800 I60                              ; set motor currents (mA) and motor idle factor in per cent
+M92 X80.00 Y80.00 Z800.00                                  ; set steps per mm
+;M92 E720
+M92 E700
+
+
+M98 P"/sys/motors_speed_printing.g"                        ;configure motors speed
+
+
+M906 X1200 Y1200 Z1200 E600 I60                            ; set motor currents (mA) and motor idle factor in per cent
 M84 S60                                                    ; Set idle timeout
 M572 D0 S0.095	    									   ; Set pressure advance
 
@@ -49,6 +56,11 @@ M574 X2 S1 P"io6.in"                                       ; configure switch-ty
 M574 Y2 S1 P"io5.in"                                       ; configure switch-type (e.g. microswitch) endstop for high end on Y via pin io5.in
 M574 Z1 S2                                                 ; configure Z-probe endstop for low end on Z
 
+;Filament sensor
+M950 J1 C"io3.in"
+M581 T1 P1 R0 S0
+
+
 ; Z-Probe
 M558 P8 C"^121.io0.in" H15 F120 T60000                      ; set Z probe type to switch and the dive height + speeds
 M98 P"/sys/probe.g"
@@ -56,7 +68,7 @@ M98 P"/sys/probe.g"
 M557 X15:215 Y15:195 P4:4                                   ; define mesh grid
 
 ; Heaters
-M308 S0 P"temp0" Y"thermistor" T100000 B3950               ; configure sensor 0 as thermistor on pin temp0
+M308 S0 A"Bed" P"temp0" Y"thermistor" T100000 B3950        ; configure sensor 0 as thermistor on pin temp0
 M950 H0 C"out0" T0                                         ; create bed heater output on out0 and map it to sensor 0
 M307 H0 B1 S1.00                                           ; enable bang-bang mode for the bed heater and set PWM limit
 M140 H0                                                    ; map heated bed to heater 0
@@ -65,6 +77,7 @@ M308 S1 A"Maxiwatt" P"121.temp0" Y"thermistor" T100000 B3950 C0    ; configure s
 M950 H1 C"121.out0" T1                                     ; create nozzle heater output on 121.out0 and map it to sensor 1
 M307 H1 B0 S1.00                                           ; disable bang-bang mode for heater  and set PWM limit
 M143 H1 S280                                               ; set temperature limit for heater 1 to 280C
+M308  S2 P"temp1" A"chamber" Y"thermistor" T100000 B3950        ; configure sensor 1 as thermistor on pin temp1 chamber
 
 ; Fans
 M950 F0 C"121.out1" Q500                                   ; create fan 0 on pin 121.out1 and set its frequency
@@ -72,9 +85,9 @@ M106 P0 S0 H-1                                             ; set fan 0 value. Th
 M950 F1 C"121.out2" Q500                                   ; create fan 1 on pin 121.out2 and set its frequency
 M106 P1 S1 H1 T45                                          ; set fan 1 value. Thermostatic control is turned on
 M950 F2 C"out5" Q500                                       ; create fan 2 on pin out5 and set its frequency
-M106 P2 S.4 H-1                                             ; set fan 2 value. Thermostatic control is turned off
+M106 P2 S.0 H-1                                             ; set fan 2 value. Thermostatic control is turned off
 M950 F3 C"out6" Q500                                       ; create fan 3 on pin out6 and set its frequency
-M106 P3 S.4 H-1                                             ; set fan 3 value. Thermostatic control is turned off
+M106 P3 S.0 H-1                                             ; set fan 3 value. Thermostatic control is turned off
 
 
 

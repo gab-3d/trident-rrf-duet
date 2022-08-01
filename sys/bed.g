@@ -9,17 +9,17 @@ if !move.axes[0].homed || !move.axes[1].homed || !move.axes[2].homed	; axis home
 
 
 
-M558 P8 C"^121.io0.in" H20 F220 T90000
+M558 H20 F420                                               ;increase the depth range, gets the gantry mostly level immediately
 M98 P"/sys/probe.g"
 M98 P"/sys/bed_probe_points.g"
 
-M400 														; finish move, clear buffer  
+M400 														;finish move, clear buffer  
 
-M558 P8 C"^121.io0.in" H3 F120 T90000
+M558 H1 F60 												;reduce depth range, probe slower for better repeatability
 M98 P"/sys/probe.g"
-while move.calibration.initial.deviation >= 0.003 ; Perform additional leveling if previous deviation was over 0.01mm.
+while move.calibration.initial.deviation >= 0.003           ;Perform additional leveling if previous deviation was over 0.01mm.
 	M98 P"/sys/bed_probe_points.g"
-	M400 														; finish move, clear buffer
+	M400 													; finish move, clear buffer
 echo "Gantry deviation of " ^ move.calibration.initial.deviation ^ "mm obtained."
 
 M98 P"/sys/homez.g"
